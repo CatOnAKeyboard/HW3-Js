@@ -26,7 +26,7 @@ var area = d3.scaleLinear()
     .range([25*Math.PI, 1500*Math.PI])
     .domain([2000, 1400000000]);
     console.log(area)
-var continentColor = d3.scaleOrdinal(d3.schemePaste11);
+var continentColor = d3.scaleOrdinal(d3.schemePastel1);
 
 // Labels
 var xLabel = g.append("text")
@@ -84,7 +84,7 @@ d3.json("data/data.json").then(function(data)
     var counter = 0
 
     d3.interval(function () {
-        update(data[counter])
+        update(formattedData[counter])
         counter = counter + 1
 
     }, 100);
@@ -115,5 +115,3 @@ function update (data) { //updated(formattedData[0]);
             return Math.sqrt(area(d.population) / Math.PI)
         });
 }
-
-
