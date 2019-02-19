@@ -82,30 +82,39 @@ d3.json("data/data.json").then(function(data)
         })
     });
 
-    //updated(formattedData[0]);
-    var circles = g.selectAll("circle").data(data, function(d){
-        return d.country;
-    });
-
-    console.log(circles);
-
-    circles.exit()
-        .attr("class", "exit")
-        .remove();
-
-    //ENTER new elements present in new data.
-    circles.enter()
-        .append("circle")
-        .attr("class", "enter")
-        .attr("fill", function(d){return continentColor(d.continent);})
-        .merge(circles)
-        .transition()
-        .duration(100)
-        .attr("cy", function(d){return y(d.life_exp);})
-        .attr("cx", function(d){return x(d.income)})
-        .attr("r", function(d){
-            return Math.sqrt(area(d.population) / Math.PI)
+    var counter = 0
+    function update () { //updated(formattedData[0]);
+        var circles = g.selectAll("circle").data(formattedData[counter], function(d){
+            return d.country;
         });
+
+        console.log(circles);
+
+        circles.exit()
+            .attr("class", "exit")
+            .remove();
+
+        //ENTER new elements present in new data.
+        circles.enter()
+            .append("circle")
+            .attr("class", "enter")
+            .attr("fill", function(d){return continentColor(d.continent);})
+            .merge(circles)
+            .transition()
+            .duration(100)
+            .attr("cy", function(d){ return y(d.life_exp);})
+            .attr("cx", function(d){return x(d.income);})
+            .attr("r", function(d){
+                return Math.sqrt(area(d.population) / Math.PI)
+            });
+    }
+
+
+    d3.interval(function () {
+        update(formattedData[counter])
+        counter = counter + 1
+
+    }, 100);
 })
 
 
